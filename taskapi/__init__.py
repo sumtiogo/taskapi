@@ -26,4 +26,8 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
+    @app.route('/tasks')
+    def get_tasks():
+        return {'result': []}, 200
+
     return app
