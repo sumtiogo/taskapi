@@ -64,7 +64,7 @@ def create_app(test_config=None):
         RETURNING id, name, status
         ''', (name, status, id))
         data = cursor.fetchone()
-        print(data)
+        db.commit()
         return {'result': data}, 200
 
     return app
