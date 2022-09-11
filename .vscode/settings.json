@@ -6,6 +6,7 @@
         "DECLTYPES",
         "executescript",
         "pyfile",
+        "pytest",
         "taskapi"
     ]
 }
