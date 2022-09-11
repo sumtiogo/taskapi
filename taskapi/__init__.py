@@ -2,6 +2,8 @@ import os
 
 from flask import Flask
 
+from taskapi.db import get_db
+
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -28,6 +30,10 @@ def create_app(test_config=None):
 
     @app.route('/tasks')
     def get_tasks():
-        return {'result': []}, 200
+        db = get_db()
+        records = db.execute('''
+        SELECT id, status from task
+        ''').fetchall()
+        return {'result': records}, 200
 
     return app

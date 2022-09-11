@@ -23,6 +23,8 @@ def test_get_given_data(app: Flask, client: FlaskClient):
     response = client.get('/tasks')
     # assertion
     assert response.status_code == 200
+    # TODO: here is over-specification, result no need to keep order,
+    # find a better assertion tool to compare two arrays
     assert response.json == {'result': [
         {'id': 1, 'status': True},
         {'id': 2, 'status': False},
