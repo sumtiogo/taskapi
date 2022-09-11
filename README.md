@@ -20,6 +20,7 @@ Docker Compose version v2.10.2
 
 run following command and then happy developing
 ```shell
+$ flask --app taskapi init-db
 $ flask --app taskapi --debug run
 ```
 
