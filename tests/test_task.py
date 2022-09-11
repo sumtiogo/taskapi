@@ -55,3 +55,18 @@ def test_put(app: Flask, client: FlaskClient):
         "status": 1,
         "id": 1
     }}
+
+
+def test_delete(app: Flask, client: FlaskClient):
+    # arrange
+    with app.app_context():
+        get_db().executescript('''
+        INSERT INTO task (name, status)
+        VALUES ('睡覺', false)
+        ''')
+    # action
+    response = client.delete('/task/1')
+    # assertion
+    assert response.status_code == 200
+    tasks = client.get('/tasks').json['result']
+    assert tasks == []

@@ -67,4 +67,13 @@ def create_app(test_config=None):
         db.commit()
         return {'result': data}, 200
 
+    @app.route('/task/<int:id>', methods=('DELETE',))
+    def delete_task(id: int):
+        db = get_db()
+        db.execute('''
+        DELETE FROM task WHERE id = ?
+        ''', (id,))
+        db.commit()
+        return '', 200
+
     return app
