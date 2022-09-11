@@ -1,9 +1,11 @@
 FROM python:3.9-alpine
 
+WORKDIR /taskapi
+
 ADD  requirements.txt .
 RUN pip install -r requirements.txt
 
-ADD main.py .
+ADD taskapi/ ./taskapi
 
 EXPOSE 5000
-CMD [ "flask", "--app", "main", "run", "--host=0.0.0.0", "--port=5050" ]
+CMD [ "flask", "--app", "taskapi", "run", "--host=0.0.0.0", "--port=5050" ]
