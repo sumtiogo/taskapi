@@ -32,7 +32,7 @@ def create_app(test_config=None):
     def get_tasks():
         db = get_db()
         records = db.execute('''
-        SELECT id, status from task
+        SELECT id, name, status from task
         ''').fetchall()
         return {'result': records}, 200
 
