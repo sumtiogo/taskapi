@@ -29,3 +29,8 @@ def test_get_given_data(app: Flask, client: FlaskClient):
         {'id': 1, 'name': 'cook', 'status': True},
         {'id': 2, 'name': 'laundry', 'status': False},
     ]}
+
+
+def test_post(client: FlaskClient):
+    response = client.post('/task', data={'name': '買晚餐'})
+    assert response.json == {'result': {'name': '買晚餐', 'status': 0, 'id': 1}}

@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, request
 
 from taskapi.db import get_db
 
@@ -35,5 +35,18 @@ def create_app(test_config=None):
         SELECT id, name, status from task
         ''').fetchall()
         return {'result': records}, 200
+
+    @app.route('/task', methods=('POST',))
+    def create_task():
+        name = request.form['name']
+        db = get_db()
+        cursor = db.execute('''
+        INSERT INTO task (name, status)
+        VALUES (?, ?)
+        RETURNING id, name, status
+        ''', (name, False))
+        data = cursor.fetchone()
+        db.commit()
+        return {'result': data}, 201
 
     return app
