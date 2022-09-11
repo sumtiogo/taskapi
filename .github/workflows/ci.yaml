@@ -5,29 +5,15 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        python-version: ["3.9.7"]
-    container:
-      image: ubuntu-20.04
-      options: --user root
+    container: python:3.10.6-alpine
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: install sqlite
+      - name: show sqlite version
         run: |
-          wget https://www.sqlite.org/2022/sqlite-autoconf-3390300.tar.gz
-          tar -xvf sqlite-autoconf-3390300.tar.gz
-          ls -al
-          pwd
-          ./configure
-          make
-          make install
-          export PATH="/usr/local/lib:$PATH"
-          sqlite3 --version
           python -c "import sqlite3; print(sqlite3.sqlite_version)"
       - name: Install dependencies
         run: |
