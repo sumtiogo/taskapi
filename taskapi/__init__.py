@@ -49,4 +49,22 @@ def create_app(test_config=None):
         db.commit()
         return {'result': data}, 201
 
+    @app.route('/task/<int:id>', methods=('PUT',))
+    def update_task(id: int):
+        # TODO confirm with interviewer
+        # 1. should we allowed user to change task id
+        # 2. what to return when bad request
+        name = request.form['name']
+        status = request.form['status']
+
+        db = get_db()
+        cursor = db.execute('''
+        UPDATE task SET name = ?, status = ?
+        WHERE id = ?
+        RETURNING id, name, status
+        ''', (name, status, id))
+        data = cursor.fetchone()
+        print(data)
+        return {'result': data}, 200
+
     return app

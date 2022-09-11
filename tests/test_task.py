@@ -34,3 +34,24 @@ def test_get_given_data(app: Flask, client: FlaskClient):
 def test_post(client: FlaskClient):
     response = client.post('/task', data={'name': '買晚餐'})
     assert response.json == {'result': {'name': '買晚餐', 'status': 0, 'id': 1}}
+
+
+def test_put(app: Flask, client: FlaskClient):
+    # arrange
+    with app.app_context():
+        get_db().executescript('''
+        INSERT INTO task (name, status)
+        VALUES ('睡覺', false)
+        ''')
+    # action
+    response = client.put('/task/1', data={
+        'name': '買早餐',
+        'status': 1,
+        'id': 1
+    })
+    # assertion
+    assert response.json == {'result': {
+        "name": "買早餐",
+        "status": 1,
+        "id": 1
+    }}
